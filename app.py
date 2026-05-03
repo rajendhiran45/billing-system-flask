@@ -18,6 +18,6 @@ def home():
 app.register_blueprint(product_bp)
 app.register_blueprint(billing_bp)
 
-
+app.secret_key = "your_secret_key" 
 if __name__ == '__main__':
     app.run(debug=True)

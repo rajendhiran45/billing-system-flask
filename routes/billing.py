@@ -46,7 +46,7 @@ def checkout():
             "message": str(e)
         }), 500       
     
-    bill_id = save_bill(bill_data)
+    
 
     
                 

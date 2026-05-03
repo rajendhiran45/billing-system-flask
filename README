@@ -1,0 +1,23 @@
+# Billing System (Flask)
+
+A full-stack billing system built using Flask, MySQL, and JavaScript.
+
+## Features
+- Product management (Add/Edit/Delete)
+- Real-time cart system
+- GST calculation
+- PDF invoice generation
+- Billing history
+- Stock management
+
+## Tech Stack
+- Python (Flask)
+- MySQL
+- HTML, CSS, JavaScript
+- ReportLab (PDF generation)
+
+## Screenshots
+(Add your UI images here)
+
+## Future Improvements
+- Authentication system

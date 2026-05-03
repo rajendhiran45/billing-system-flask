@@ -56,12 +56,12 @@ def generate_bill_pdf(bill_data, bill_id):
     c.line(50, y, 550, y)
 
     y -= 20
-    c.drawString(350, y, f"Subtotal: Rs.{bill_data['subtotal']}")
+    c.drawString(350, y, f"Subtotal: Rs.{bill_data['subtotal']:.2f}")
     y -= 15
-    c.drawString(350, y, f"GST: Rs.{bill_data['total_gst']}")
+    c.drawString(350, y, f"GST: Rs.{bill_data['total_gst']:.2f}")
     y -= 15
     c.setFont("Helvetica-Bold", 12)
-    c.drawString(350, y, f"Total: Rs.{bill_data['total_amount']}")
+    c.drawString(350, y, f"Total: Rs.{bill_data['total_amount']:.2f}")
 
    
     y -= 40
