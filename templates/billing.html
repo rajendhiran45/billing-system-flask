@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="billing-layout">
+
+    <!-- LEFT SIDE PRODUCTS -->
+    <div class="billing-products">
+
+        <div class="section-title">Products</div>
+
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card {% if product.stock == 0 %}disabled{% endif %}"
+                {% if product.stock > 0 %}
+                    onclick="addToCart(this)"
+                {% endif %}
+                data-id="{{ product.id }}"
+                data-name="{{ product.name }}"
+                data-price="{{ product.price }}"
+                data-gst="{{ product.gst_percent }}">
+                <img src="{{ url_for('static', filename=product.image_path if product.image_path else 'uploads/products/default.jpg') }}" class="product-img">
+
+                <h3>{{ product.name }}</h3>
+                <p class="price">₹ {{ product.price }}</p>
+                <p>Stock: {{ product.stock }}</p>
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+  
+    <div class="billing-cart">
+
+        <div class="section-title">Cart</div>
+        <div id="cart-items"></div>
+
+        
+
+        <div class="bill-summary">
+            <p>Subtotal: ₹ <span id="subtotal">0</span></p>
+            <p>GST: ₹ <span id="gst">0</span></p>
+            <h3>Total: ₹ <span id="grand-total">0</span></h3>
+        </div>
+
+        <button class="checkout-btn" onclick="checkout()">
+            Generate Bill
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/billing.js') }}"></script>
+
+{% endblock %}

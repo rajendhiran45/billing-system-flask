@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Billing System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+    <div class="header">Billing System</div>
+    <div class="container">
+        <div class="navbar">
+            <div class="brand">Rajendhiran</div>
+
+            <div class="nav-items">
+                <a href="{{ url_for('billing.billing_page') }}" 
+                class="{% if request.endpoint == 'billing.billing_page' %}active{% endif %}">
+                Bill
+                </a>
+
+                <a href="{{ url_for('product.fetch_products') }}" 
+                class="{% if request.endpoint == 'product.fetch_products' %}active{% endif %}">
+                Products
+                </a>
+
+                <a href="{{ url_for('billing.history_page') }}" 
+                class="{% if request.endpoint == 'billing.history_page' %}active{% endif %}">
+                History
+                </a>
+            </div>
+        </div>
+        <div class="content">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <p style="color: {{ 'red' if category == 'error' else 'green' }};">
+                                {{ message }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <div id="toast" class="toast"></div>
+   
+</body>
+</html>
