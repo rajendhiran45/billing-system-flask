@@ -6,32 +6,34 @@
     <h2>Billing History</h2>
 </div>
 
-<table class="history-table">
-    <thead>
-        <tr>
-            <th>Bill ID</th>
-            <th>Subtotal</th>
-            <th>GST</th>
-            <th>Total</th>
-            <th>View</th>
-        </tr>
-    </thead>
+<div class="table-responsive">
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>Bill ID</th>
+                <th>Subtotal</th>
+                <th>GST</th>
+                <th>Total</th>
+                <th>View</th>
+            </tr>
+        </thead>
 
-    <tbody>
-        {% for bill in bills %}
-        <tr>
-            <td>{{ bill.id }}</td>
-            <td>₹ {{ bill.subtotal }}</td>
-            <td>₹ {{ bill.gst_amount }}</td>
-            <td>₹ {{ bill.total }}</td>
-            <td>
-                <a href="{{ url_for('static', filename='bills/bill_' ~ bill.id ~ '.pdf') }}" target="_blank">
-                    View PDF
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <tbody>
+            {% for bill in bills %}
+            <tr>
+                <td>{{ bill.id }}</td>
+                <td>₹ {{ bill.subtotal }}</td>
+                <td>₹ {{ bill.gst_amount }}</td>
+                <td>₹ {{ bill.total }}</td>
+                <td>
+                    <a href="{{ url_for('static', filename='bills/bill_' ~ bill.id ~ '.pdf') }}" target="_blank">
+                        View PDF
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}

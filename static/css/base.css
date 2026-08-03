@@ -452,3 +452,169 @@ body{
 .toast.error {
     background: #e74c3c;
 }
+
+/* ===================================================
+   RESPONSIVE / MOBILE STYLES
+   =================================================== */
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Tablet and small laptop */
+@media (max-width: 992px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .billing-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .billing-cart {
+        order: -1;
+    }
+}
+
+/* Tablets / large phones */
+@media (max-width: 768px) {
+    .header {
+        font-size: 22px;
+        padding: 16px 10px 4px 10px;
+    }
+
+    .container {
+        margin: 10px;
+        padding: 12px;
+    }
+
+    .content {
+        margin-top: 16px;
+        padding: 14px;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        padding: 16px 20px;
+        font-size: 18px;
+        border-radius: 10px;
+    }
+
+    .brand {
+        margin-left: 0;
+    }
+
+    .nav-items {
+        gap: 24px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .page-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .product-card {
+        padding: 10px;
+    }
+
+    .modal-box {
+        width: 90%;
+        max-width: 400px;
+        padding: 22px;
+    }
+
+    .history-table th,
+    .history-table td {
+        padding: 10px 8px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    .header {
+        font-size: 18px;
+    }
+
+    .navbar {
+        padding: 12px 14px;
+        font-size: 16px;
+        gap: 10px;
+    }
+
+    .nav-items {
+        gap: 14px;
+        width: 100%;
+    }
+
+    .nav-items a {
+        font-size: 14px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .product-card h3 {
+        font-size: 15px;
+        margin: 8px 0 6px;
+    }
+
+    .price {
+        font-size: 16px;
+    }
+
+    .card-actions {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .card-actions button {
+        width: 100%;
+    }
+
+    .add-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .billing-products,
+    .billing-cart {
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    .section-title {
+        font-size: 20px;
+    }
+
+    .checkout-btn {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .modal-box {
+        width: 92%;
+        padding: 18px;
+    }
+
+    .toast {
+        left: 10px;
+        right: 10px;
+        top: 10px;
+        text-align: center;
+    }
+}
