@@ -13,21 +13,13 @@ A full-stack billing system built using Flask, MySQL, and JavaScript.
 - Server-validated discounts (cashiers up to ₹100; administrators can approve larger discounts).
 - Cash, UPI, card, bank-transfer, and split payments with an exact-total check.
 - Administrator audit log for checkouts and key customer/product/team changes.
-- Privacy-safe AI Retail Assistant with local, explainable sales and stock insights. It sends no data to an external AI service and never changes records automatically.
+  
 
 ## Tech Stack
 - Python (Flask)
 - MySQL
 - HTML, CSS, JavaScript
 - ReportLab (PDF generation)
-
-## Screenshots
-(Add your UI images here)
-
-## Future Improvements
-- Authentication system
-- Deployment (live demo)
-
 
 ## First-time login setup
 
