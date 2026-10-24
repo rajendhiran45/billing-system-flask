@@ -87,3 +87,59 @@ document.getElementById("editForm").addEventListener("submit", function(e) {
         alert("Something went wrong");
     });
 });
+
+// Client-side product search and stock filters. These only filter the displayed
+// catalogue; all prices and stock checks remain server-side.
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("productSearch");
+    const stockFilter = document.getElementById("stockFilter");
+    const clearButton = document.getElementById("clearProductFilters");
+    const countLabel = document.getElementById("catalogueCount");
+    const resultsLabel = document.getElementById("filterResults");
+    const cards = Array.from(document.querySelectorAll("#productsGrid .product-card"));
+
+    if (!searchInput || !stockFilter) return;
+
+    function applyProductFilters() {
+        const query = searchInput.value.trim().toLocaleLowerCase();
+        const filter = stockFilter.value;
+        let visible = 0;
+
+        cards.forEach(card => {
+            const name = card.dataset.productName || "";
+            const stock = Number(card.dataset.stock || 0);
+            const threshold = Number(card.dataset.lowStockThreshold || 5);
+            const matchesName = name.includes(query);
+            const matchesStock = filter === "all"
+                || (filter === "available" && stock > 0)
+                || (filter === "low" && stock > 0 && stock <= threshold)
+                || (filter === "out" && stock <= 0);
+            const show = matchesName && matchesStock;
+            card.hidden = !show;
+            if (show) visible += 1;
+        });
+
+        if (countLabel) countLabel.textContent = `${visible} of ${cards.length} products`;
+        if (resultsLabel) resultsLabel.textContent = `Showing ${visible} product${visible === 1 ? "" : "s"}`;
+    }
+
+    searchInput.addEventListener("input", applyProductFilters);
+    stockFilter.addEventListener("change", applyProductFilters);
+    if (clearButton) {
+        clearButton.addEventListener("click", function () {
+            searchInput.value = "";
+            stockFilter.value = "all";
+            applyProductFilters();
+            searchInput.focus();
+        });
+    }
+    applyProductFilters();
+});
+
+function setStockFilter(value) {
+    const filter = document.getElementById("stockFilter");
+    if (!filter) return;
+    filter.value = value;
+    filter.dispatchEvent(new Event("change"));
+    document.getElementById("productSearch")?.focus();
+}

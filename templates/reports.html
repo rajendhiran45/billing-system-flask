@@ -1,0 +1,43 @@
+{% extends "base.html" %}{% block page_heading %}Sales Reports{% endblock %}{%
+block extra_css %}<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/management.css') }}"
+/>{% endblock %}{% block content %}
+<div class="management-page">
+  <h2>Invoice report</h2>
+  <form method="get" class="data-form">
+    <label>From <input type="date" name="start" value="{{ start }}" /></label
+    ><label>To <input type="date" name="end" value="{{ end }}" /></label
+    ><button>Filter</button
+    ><a
+      class="button-link"
+      href="{{ url_for('management.export_reports', start=start, end=end) }}"
+      >Export CSV</a
+    >
+  </form>
+  <table>
+    <tr>
+      <th>Invoice</th>
+      <th>Date</th>
+      <th>Customer</th>
+      <th>Cashier</th>
+      <th>Payment</th>
+      <th>Total</th>
+    </tr>
+    {% for row in rows %}
+    <tr>
+      <td>#{{ row.id }}</td>
+      <td>{{ row.created_at }}</td>
+      <td>{{ row.customer_name or 'Walk-in' }}</td>
+      <td>{{ row.cashier or '—' }}</td>
+      <td>{{ row.payment_method }}</td>
+      <td>₹{{ '%.2f'|format(row.total|float) }}</td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="6">No invoices in this date range.</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

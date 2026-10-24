@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block page_heading %}Customers{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/management.css') }}">
+{% endblock %}
+{% block content %}
+<div class="management-page">
+  <h2>Customer management</h2>
+
+  <form method="post" class="data-form">
+    <input name="name" placeholder="Customer name" required>
+    <input name="phone" placeholder="Phone">
+    <input name="email" type="email" placeholder="Email">
+    <input name="address" placeholder="Address">
+    <button type="submit">Add customer</button>
+  </form>
+
+  <div class="customer-search-bar">
+    <label for="customer-page-search">Search customers</label>
+    <input id="customer-page-search" type="search" placeholder="Search by name, phone, email, or address" autocomplete="off">
+    <span id="customer-page-search-status" role="status">{{ customers|length }} customer(s)</span>
+  </div>
+
+  <div class="customer-table-wrapper">
+    <table id="customer-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Available points</th>
+          <th>Lifetime earned</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customers %}
+        <tr class="customer-row"
+            data-search="{{ [customer.name, customer.phone or '', customer.email or '', customer.address or '']|join(' ')|lower }}">
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.phone or '—' }}</td>
+          <td>{{ customer.email or '—' }}</td>
+          <td>{{ customer.address or '—' }}</td>
+          <td><strong>{{ customer.loyalty_points or 0 }}</strong></td>
+          <td>{{ customer.loyalty_lifetime_points or 0 }}</td>
+        </tr>
+        {% else %}
+        <tr id="no-customers-row">
+          <td colspan="6">No customers saved yet.</td>
+        </tr>
+        {% endfor %}
+        <tr id="no-customer-search-results" hidden>
+          <td colspan="6">No customers match your search.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("customer-page-search");
+    const rows = Array.from(document.querySelectorAll(".customer-row"));
+    const status = document.getElementById("customer-page-search-status");
+    const empty = document.getElementById("no-customer-search-results");
+
+    if (!input) return;
+
+    input.addEventListener("input", () => {
+      const query = input.value.trim().toLowerCase();
+      let count = 0;
+
+      rows.forEach(row => {
+        const matches = !query || (row.dataset.search || "").includes(query);
+        row.hidden = !matches;
+        if (matches) count += 1;
+      });
+
+      if (empty) empty.hidden = count !== 0 || rows.length === 0;
+      if (status) {
+        status.textContent = query
+          ? `${count} matching customer(s)`
+          : `${rows.length} customer(s)`;
+      }
+    });
+  });
+</script>
+{% endblock %}

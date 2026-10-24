@@ -1,0 +1,104 @@
+.management-page {
+  max-width: 1100px;
+  margin: auto;
+}
+.management-page h2 {
+  margin-top: 0;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+.metric-grid article,
+.management-page section {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 18px;
+  margin: 18px 0;
+}
+.metric-grid small {
+  display: block;
+  color: #6b7280;
+}
+.metric-grid strong {
+  font-size: 1.5rem;
+}
+.management-page table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+.management-page th,
+.management-page td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+.management-page th {
+  color: #4b5563;
+}
+.data-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+.data-form input,
+.data-form select,
+.customer-field select {
+  padding: 9px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+.data-form button,
+.button-link,
+.inline-form button {
+  background: #2563eb;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 9px 13px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.inline-form {
+  display: flex;
+  gap: 6px;
+}
+.customer-field {
+  display: block;
+  margin: 14px 0;
+  color: #4b5563;
+}
+.customer-field select {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  background: #fff;
+}
+@media (max-width: 650px) {
+  .management-page {
+    overflow-x: auto;
+  }
+  .management-page table {
+    min-width: 650px;
+  }
+}
+
+.customer-search-bar { display: grid; grid-template-columns: auto minmax(240px, 420px) auto; align-items: center; gap: 10px; margin: 20px 0 12px; }
+.customer-search-bar label { color: #334155; font-size: 14px; font-weight: 700; }
+.customer-search-bar input { min-height: 40px; padding: 9px 11px; border: 1px solid #cbd5e1; border-radius: 7px; font: inherit; }
+.customer-search-bar input:focus { outline: 2px solid rgba(37, 99, 235, .2); border-color: #2563eb; }
+.customer-search-bar span { color: #64748b; font-size: 13px; }
+.customer-table-wrapper { overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; }
+.customer-table-wrapper table { margin: 0; min-width: 760px; }
+.customer-table-wrapper thead { background: #f8fafc; }
+.customer-table-wrapper tbody tr:hover { background: #f8fbff; }
+.customer-table-wrapper tr[hidden] { display: none; }
+#no-customer-search-results td { padding: 26px 12px; color: #64748b; text-align: center; }
+@media (max-width: 650px) {
+  .customer-search-bar { grid-template-columns: 1fr; align-items: stretch; }
+}

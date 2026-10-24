@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% block page_heading %}Sales Forecast{% endblock %}{%
+block extra_css %}<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/management.css') }}"
+/>{% endblock %}{% block content %}
+<div class="management-page">
+  <h2>30-day demand forecast</h2>
+  <p>
+    Forecasts use the average daily units sold over the previous 30 days; they
+    are planning guidance, not guarantees.
+  </p>
+  <table>
+    <tr>
+      <th>Product</th>
+      <th>Stock</th>
+      <th>Avg/day</th>
+      <th>Forecast</th>
+      <th>Suggested restock</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+      <td>{{ item.name }}</td>
+      <td>{{ item.stock }}</td>
+      <td>{{ item.average_daily }}</td>
+      <td>{{ item.forecast_30d }}</td>
+      <td>{{ item.suggested_restock }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

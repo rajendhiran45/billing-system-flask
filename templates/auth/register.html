@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Admin Account | Billing System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+    <main class="auth-shell">
+        <section class="auth-brand-panel">
+            <div class="brand-mark">B</div>
+            <p class="eyebrow">FIRST-TIME SETUP</p>
+            <h1>Create your<br>workspace account.</h1>
+            <p class="brand-copy">Set up the first account to secure your billing and inventory workspace.</p>
+            <div class="brand-footer">Billora · Your business, in balance.</div>
+        </section>
+
+        <section class="auth-form-panel">
+            <div class="auth-form-wrap">
+                <p class="eyebrow form-eyebrow">ADMIN SETUP</p>
+                <h2>Create account</h2>
+                <p class="form-subtitle">This one-time setup is available only before the first account is created.</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="auth-messages">
+                            {% for category, message in messages %}
+                                <div class="auth-message {{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% if setup_error %}<div class="auth-message error">{{ setup_error }}</div>{% endif %}
+
+                <form method="post" class="auth-form">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" autocomplete="username" required minlength="3" maxlength="80" pattern="\S+" title="Username cannot contain spaces">
+
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="new-password" required minlength="10">
+                    <p class="field-hint">Use at least 10 characters.</p>
+
+                    <label for="confirm_password">Confirm password</label>
+                    <input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" required minlength="10">
+
+                    <button type="submit" class="auth-submit">Create account <span aria-hidden="true">→</span></button>
+                </form>
+                <p class="auth-footnote">Passwords are stored as secure hashes, not plain text.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

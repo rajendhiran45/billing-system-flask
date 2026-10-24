@@ -1,0 +1,445 @@
+
+/* ==========================================
+   Billing System - Billing History
+   Modern White, Navy and Blue Theme
+========================================== */
+
+.history-page {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    color: #172033;
+}
+
+/* Page introduction */
+
+.history-intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.history-intro h2 {
+    margin: 0;
+    color: #172033;
+    font-size: 21px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+}
+
+.history-intro p {
+    margin: 5px 0 0;
+    color: #697586;
+    font-size: 12px;
+}
+
+.history-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid #dbeafe;
+    border-radius: 30px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.history-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #3b82f6;
+}
+
+/* Summary cards */
+
+.history-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 17px;
+    margin-bottom: 26px;
+}
+
+.history-stat {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid #e5eaf2;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.025);
+}
+
+.history-stat-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.icon-blue {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.icon-green {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.icon-purple {
+    background: #f3e8ff;
+    color: #7e22ce;
+}
+
+.history-stat p {
+    margin: 0 0 5px;
+    color: #697586;
+    font-size: 11px;
+}
+
+.history-stat h3 {
+    margin: 0;
+    color: #172033;
+    font-size: 22px;
+    font-weight: 750;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+/* History panel */
+
+.history-panel {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e5eaf2;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+}
+
+.history-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 23px 25px;
+    border-bottom: 1px solid #e9edf4;
+}
+
+.history-panel-heading h3 {
+    margin: 0;
+    color: #172033;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.history-panel-heading p {
+    margin: 4px 0 0;
+    color: #7b8798;
+    font-size: 11px;
+}
+
+.invoice-count {
+    padding: 6px 10px;
+    border: 1px solid #e5eaf2;
+    border-radius: 7px;
+    background: #f8fafc;
+    color: #526176;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Responsive table wrapper */
+
+.history-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+}
+
+/* Invoice table */
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.history-table thead {
+    background: #f8fafc;
+}
+
+.history-table th {
+    padding: 15px 22px;
+    border-bottom: 1px solid #e5eaf2;
+    color: #697586;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.55px;
+    text-transform: uppercase;
+}
+
+.history-table td {
+    padding: 17px 22px;
+    border-bottom: 1px solid #eef1f6;
+    color: #475569;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.history-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.history-table tbody tr:hover {
+    background: #f8fbff;
+}
+
+.history-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* Table values */
+
+.bill-id {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border: 1px solid #dbeafe;
+    border-radius: 6px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.money-cell {
+    font-variant-numeric: tabular-nums;
+}
+
+.gst-value {
+    color: #64748b;
+    font-variant-numeric: tabular-nums;
+}
+
+.total-value {
+    color: #172033;
+    font-size: 13px;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+}
+
+.action-column {
+    text-align: right;
+}
+
+/* View invoice button */
+
+.view-invoice-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 34px;
+    padding: 8px 11px;
+    border: 1px solid #dbeafe;
+    border-radius: 7px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 11px;
+    font-weight: 650;
+    text-decoration: none;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.view-invoice-btn:hover {
+    transform: translateY(-1px);
+    border-color: #bfdbfe;
+    background: #dbeafe;
+}
+
+.view-invoice-btn:focus-visible,
+.create-first-bill-btn:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.3);
+    outline-offset: 3px;
+}
+
+.view-invoice-btn span {
+    font-size: 14px;
+}
+
+/* Table footer */
+
+.history-table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 15px 24px;
+    border-top: 1px solid #e9edf4;
+    background: #ffffff;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+/* Empty history state */
+
+.history-empty {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 60px 24px;
+    text-align: center;
+}
+
+.history-empty-icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    margin-bottom: 17px;
+    border-radius: 16px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 30px;
+}
+
+.history-empty h3 {
+    margin: 0;
+    color: #172033;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.history-empty p {
+    max-width: 350px;
+    margin: 8px 0 20px;
+    color: #7b8798;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.create-first-bill-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 40px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 650;
+    text-decoration: none;
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+}
+
+.create-first-bill-btn:hover {
+    transform: translateY(-1px);
+    background: #1d4ed8;
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+    .history-summary {
+        gap: 11px;
+    }
+
+    .history-stat {
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .history-stat-icon {
+        width: 39px;
+        height: 39px;
+        font-size: 19px;
+    }
+
+    .history-stat h3 {
+        font-size: 19px;
+    }
+
+    .history-table th,
+    .history-table td {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    .history-intro {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .history-summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .history-stat {
+        padding: 15px 17px;
+    }
+
+    .history-panel-heading {
+        padding: 18px 16px;
+    }
+
+    .history-table {
+        min-width: 650px;
+    }
+
+    .history-table th,
+    .history-table td {
+        padding: 14px;
+    }
+
+    .history-table-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+        padding: 14px 16px;
+    }
+
+    .history-empty {
+        padding: 45px 18px;
+    }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

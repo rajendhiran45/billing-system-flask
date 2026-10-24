@@ -1,0 +1,67 @@
+
+{% extends "base.html" %}
+
+{% block title %}Activity History | Billora{% endblock %}
+{% block page_heading %}Activity History{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/audit_log.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="audit-log-panel">
+
+    <div class="audit-log-heading">
+        <div>
+            <h2>Audit log</h2>
+            <p>Administrator view of completed business actions.</p>
+        </div>
+        <span class="audit-log-count">
+            {{ actions|length }} records
+        </span>
+    </div>
+
+    {% if actions %}
+    <div class="audit-log-table-wrapper">
+        <table class="audit-log-table">
+            <thead>
+                <tr>
+                    <th>When</th>
+                    <th>Who</th>
+                    <th>Action</th>
+                    <th>Record</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for action in actions %}
+                <tr>
+                    <td class="audit-log-date">
+                        {{ action.created_at }}
+                    </td>
+                    <td>{{ action.username or "Unknown user" }}</td>
+                    <td>
+                        <span class="audit-action">
+                            {{ action.action|replace('_', ' ')|title }}
+                        </span>
+                    </td>
+                    <td class="record-id">
+                        {{ action.entity_type|title }}
+                        {% if action.entity_id %}
+                            #{{ action.entity_id }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="audit-log-empty">
+        <h3>No activity recorded yet</h3>
+        <p>New checkouts and administration changes will appear here.</p>
+    </div>
+    {% endif %}
+
+</section>
+{% endblock %}

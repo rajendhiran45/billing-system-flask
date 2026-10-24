@@ -1,53 +1,175 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Billing System{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+
+    <title>{% block title %}Billora{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/base.css') }}">
+
+    {% block extra_css %}{% endblock %}
 </head>
+
 <body>
-    <div class="header">Billing System</div>
-    <div class="container">
-        <div class="navbar">
-            <div class="brand">Rajendhiran</div>
+    <div class="app-layout">
 
-            <div class="nav-items">
-                <a href="{{ url_for('billing.billing_page') }}" 
-                class="{% if request.endpoint == 'billing.billing_page' %}active{% endif %}">
-                Bill
-                </a>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="{{ url_for('billing.billing_page') }}"
+               class="sidebar-brand">
+                <span class="brand-icon">B</span>
+                <span class="brand-name">Billora</span>
+            </a>
 
-                <a href="{{ url_for('product.fetch_products') }}" 
-                class="{% if request.endpoint == 'product.fetch_products' %}active{% endif %}">
-                Products
-                </a>
+            <div class="sidebar-section">
+                <p class="sidebar-label">WORKSPACE</p>
 
-                <a href="{{ url_for('billing.history_page') }}" 
-                class="{% if request.endpoint == 'billing.history_page' %}active{% endif %}">
-                History
-                </a>
+                <nav class="sidebar-nav">
+
+                    <!-- Billing: available to both admins and cashiers -->
+                    <a href="{{ url_for('billing.billing_page') }}"
+                       class="nav-link {% if request.endpoint == 'billing.billing_page' %}active{% endif %}">
+                        <span class="nav-icon">▣</span>
+                        <span>Billing</span>
+                    </a>
+
+                    <!-- Products: admins only -->
+                    {% if session.get('role') == 'admin' %}
+                    <a href="{{ url_for('product.fetch_products') }}"
+                       class="nav-link {% if request.endpoint and request.endpoint.startswith('product.') %}active{% endif %}">
+                        <span class="nav-icon">□</span>
+                        <span>Products</span>
+                    </a>
+                    {% endif %}
+
+                    <!-- Billing history -->
+                    <a href="{{ url_for('billing.history_page') }}"
+                       class="nav-link {% if request.endpoint == 'billing.history_page' %}active{% endif %}">
+                        <span class="nav-icon">◷</span>
+                        <span>Billing History</span>
+                    </a>
+
+                    <!-- Admin-only navigation -->
+                    {% if session.get('role') == 'admin' %}
+
+                    <a href="{{ url_for('management.dashboard') }}"
+                       class="nav-link {% if request.endpoint == 'management.dashboard' %}active{% endif %}">
+                        <span class="nav-icon">▥</span>
+                        <span>Analytics</span>
+                    </a>
+
+                    <a href="{{ url_for('management.inventory_alerts') }}"
+                       class="nav-link {% if request.endpoint == 'management.inventory_alerts' %}active{% endif %}">
+                        <span class="nav-icon">!</span>
+                        <span>Inventory alerts</span>
+                    </a>
+
+                    <a href="{{ url_for('management.forecast') }}"
+                       class="nav-link {% if request.endpoint == 'management.forecast' %}active{% endif %}">
+                        <span class="nav-icon">↗</span>
+                        <span>Forecast</span>
+                    </a>
+
+                    <a href="{{ url_for('management.customers') }}"
+                       class="nav-link {% if request.endpoint == 'management.customers' %}active{% endif %}">
+                        <span class="nav-icon">♙</span>
+                        <span>Customers</span>
+                    </a>
+
+                    <a href="{{ url_for('management.reports') }}"
+                       class="nav-link {% if request.endpoint == 'management.reports' %}active{% endif %}">
+                        <span class="nav-icon">▤</span>
+                        <span>Sales reports</span>
+                    </a>
+
+                    <a href="{{ url_for('management.users') }}"
+                       class="nav-link {% if request.endpoint == 'management.users' %}active{% endif %}">
+                        <span class="nav-icon">⚙</span>
+                        <span>Team access</span>
+                    </a>
+                    <a href="{{ url_for('management.audit_log') }}" class="nav-link {% if request.endpoint == 'management.audit_log' %}active{% endif %}">
+                        <span class="nav-icon">◷</span><span>Activity history</span>
+                    </a>
+
+                    {% endif %}
+
+                </nav>
             </div>
-        </div>
-        <div class="content">
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div class="flash-messages">
-                        {% for category, message in messages %}
-                            <p style="color: {{ 'red' if category == 'error' else 'green' }};">
-                                {{ message }}
-                            </p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
-            
-            
-            {% block content %}{% endblock %}
-        </div>
+            <!-- Sidebar footer -->
+            <div class="sidebar-footer">
+                <div class="footer-indicator"></div>
+
+                <div class="sidebar-user-details">
+                    <p class="footer-title">
+                        {{ session.get('username', 'Signed in') }}
+                    </p>
+
+                    <p class="footer-subtitle">
+                        {{ session.get('role', 'cashier')|title }}
+                    </p>
+
+                    <form method="post"
+                          action="{{ url_for('auth.logout') }}"
+                          class="logout-form">
+                        <button type="submit" class="logout-button">
+                            Sign out
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-area">
+
+            <header class="topbar">
+                <div class="topbar-heading">
+                    <h1>
+                        {% block page_heading %}Dashboard{% endblock %}
+                    </h1>
+                    <p>Manage your billing operations</p>
+                </div>
+            </header>
+
+            <section class="content">
+
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-container">
+                            {% for category, message in messages %}
+                                <div class="flash-message flash-{{ category }}">
+                                    <span>{{ message }}</span>
+
+                                    <button type="button"
+                                            class="flash-close"
+                                            onclick="this.parentElement.remove()"
+                                            aria-label="Dismiss message">
+                                        &times;
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Individual page content -->
+                {% block content %}{% endblock %}
+
+            </section>
+
+            <footer class="main-footer">
+                <span>Billora</span>
+                <spanSmart Billing &amp; Retail Management</span>
+            </footer>
+
+        </main>
     </div>
-    <div id="toast" class="toast"></div>
-   
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

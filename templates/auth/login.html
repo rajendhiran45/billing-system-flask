@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Billing System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+    <main class="auth-shell">
+        <section class="auth-brand-panel">
+            <div class="brand-mark">B</div>
+            <p class="eyebrow">BILLING & RETAIL MANAGEMENT</p>
+            <h1>Every sale has a story.<br>Every number has a place.</h1>
+            <p class="brand-copy">Manage your products, simplify checkout, and keep every transaction organized in one workspace.</p>
+            <div class="brand-footer">Billora · Your business, in balance.</div>
+        </section>
+
+        <section class="auth-form-panel">
+            <div class="auth-form-wrap">
+                <p class="eyebrow form-eyebrow">WELCOME BACK</p>
+                <h2>Sign in to your account</h2>
+                <p class="form-subtitle">Enter your account details to continue.</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="auth-messages">
+                            {% for category, message in messages %}
+                                <div class="auth-message {{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% if setup_error %}<div class="auth-message error">{{ setup_error }}</div>{% endif %}
+
+                <form method="post" class="auth-form">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" autocomplete="username" required maxlength="80" autofocus>
+
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+                    <button type="submit" class="auth-submit">Sign in <span aria-hidden="true">→</span></button>
+                </form>
+                <p class="auth-footnote">Your workspace is protected by account authentication.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

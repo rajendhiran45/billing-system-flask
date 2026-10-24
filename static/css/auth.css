@@ -1,0 +1,120 @@
+:root {
+    color-scheme: light;
+    --navy: #14213d;
+    --navy-deep: #0b1630;
+    --blue: #315efb;
+    --text: #172033;
+    --muted: #6b7280;
+    --border: #e3e8f1;
+    --surface: #ffffff;
+    --background: #f4f7fc;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.auth-shell {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.9fr) minmax(360px, 1.1fr);
+    min-height: 100vh;
+    padding: 24px;
+    gap: 24px;
+}
+.auth-brand-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding: clamp(32px, 6vw, 76px);
+    border-radius: 24px;
+    color: #fff;
+    background: radial-gradient(circle at 80% 20%, rgba(77, 116, 255, .32), transparent 34%), linear-gradient(145deg, var(--navy), var(--navy-deep));
+}
+.auth-brand-panel::after {
+    position: absolute;
+    right: -110px;
+    bottom: -160px;
+    width: 360px;
+    height: 360px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 50%;
+    box-shadow: 0 0 0 38px rgba(255,255,255,.025), 0 0 0 78px rgba(255,255,255,.025);
+    content: "";
+}
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 42px;
+    border-radius: 15px;
+    background: #fff;
+    color: var(--navy);
+    font-size: 27px;
+    font-weight: 800;
+}
+.eyebrow { margin: 0 0 14px; font-size: 11px; font-weight: 800; letter-spacing: .16em; }
+.auth-brand-panel .eyebrow { color: #b9c9ff; }
+.auth-brand-panel h1 { max-width: 560px; margin: 0; font-size: clamp(32px, 4vw, 52px); line-height: 1.12; letter-spacing: -.04em; }
+.brand-copy { max-width: 440px; margin: 22px 0 0; color: #c9d2e5; font-size: 15px; line-height: 1.8; }
+.brand-footer { position: absolute; bottom: 30px; color: #aab7d1; font-size: 12px; }
+.auth-form-panel { display: grid; place-items: center; padding: 28px; }
+.auth-form-wrap { width: min(100%, 420px); }
+.form-eyebrow { color: var(--blue); }
+.auth-form-wrap h2 { margin: 0; font-size: clamp(27px, 3vw, 34px); letter-spacing: -.035em; }
+.form-subtitle { margin: 12px 0 28px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.auth-form { display: flex; flex-direction: column; }
+.auth-form label { margin: 17px 0 8px; font-size: 13px; font-weight: 700; }
+.auth-form input {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid #d8deea;
+    border-radius: 10px;
+    outline: none;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    transition: border-color .15s, box-shadow .15s;
+}
+.auth-form input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(49,94,251,.12); }
+.auth-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 50px;
+    margin-top: 28px;
+    padding: 0 17px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--blue);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 750;
+    box-shadow: 0 8px 18px rgba(49,94,251,.18);
+}
+.auth-submit:hover { background: #244fe8; }
+.auth-submit span { font-size: 20px; }
+.auth-footnote { margin-top: 24px; color: #818a9b; font-size: 12px; line-height: 1.7; }
+.field-hint { margin: 7px 0 0; color: var(--muted); font-size: 12px; }
+.auth-messages { display: grid; gap: 8px; margin-bottom: 16px; }
+.auth-message { padding: 11px 13px; border-radius: 9px; font-size: 13px; line-height: 1.5; }
+.auth-message.error { background: #fff0f0; color: #a52929; }
+.auth-message.success { background: #eaf9f0; color: #17663b; }
+.auth-message.info { background: #edf3ff; color: #234aab; }
+@media (max-width: 800px) {
+    .auth-shell { grid-template-columns: 1fr; padding: 12px; gap: 12px; }
+    .auth-brand-panel { min-height: 300px; padding: 30px; border-radius: 18px; }
+    .brand-mark { margin-bottom: 24px; }
+    .auth-brand-panel h1 { font-size: 34px; }
+    .brand-copy { margin-top: 14px; }
+    .brand-footer { position: static; margin-top: 28px; }
+    .auth-form-panel { padding: 36px 16px; }
+}

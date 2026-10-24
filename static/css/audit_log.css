@@ -1,0 +1,73 @@
+
+.audit-log-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.audit-log-heading h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    color: #172033;
+}
+
+.audit-log-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.audit-log-count {
+    padding: 7px 12px;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+.audit-log-panel { max-width: 1180px; padding: 24px; border: 1px solid #e2e8f0; border-radius: 14px; background: #ffffff; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05); }
+.audit-log-table-wrapper { overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 10px; background: #ffffff; }
+.audit-log-table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px; }
+.audit-log-table th, .audit-log-table td { padding: 14px 16px; text-align: left; vertical-align: middle; border-bottom: 1px solid #e2e8f0; }
+.audit-log-table th { background: #f8fafc; color: #475569; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.audit-log-table tbody tr:last-child td { border-bottom: 0; }
+.audit-log-table tbody tr:hover { background: #f8fbff; }
+.audit-action { display: inline-flex; max-width: 100%; padding: 5px 9px; border-radius: 999px; background: #eff6ff; color: #1d4ed8; font-size: 12px; font-weight: 650; line-height: 1.3; }
+.audit-log-date {
+    white-space: nowrap;
+    color: #64748b !important;
+    font-variant-numeric: tabular-nums;
+}
+
+.audit-log-empty {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.audit-log-empty h3 {
+    margin-bottom: 8px;
+    color: #172033;
+}
+
+.audit-log-empty p {
+    color: #64748b;
+}
+
+.record-id {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .audit-log-panel { padding: 16px; border-radius: 10px; }
+    .audit-log-table th, .audit-log-table td { padding: 12px; }
+    .audit-log-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

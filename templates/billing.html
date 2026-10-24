@@ -1,61 +1,289 @@
+
 {% extends "base.html" %}
+
+{% block title %}Billing | Billing System{% endblock %}
+
+{% block page_heading %}Create Bill{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/billing.css') }}">
+{% endblock %}
 
 {% block content %}
 
-<div class="billing-layout">
+<div class="billing-page">
 
-    <!-- LEFT SIDE PRODUCTS -->
-    <div class="billing-products">
-
-        <div class="section-title">Products</div>
-
-        <div class="products-grid">
-            {% for product in products %}
-            <div class="product-card {% if product.stock == 0 %}disabled{% endif %}"
-                {% if product.stock > 0 %}
-                    onclick="addToCart(this)"
-                {% endif %}
-                data-id="{{ product.id }}"
-                data-name="{{ product.name }}"
-                data-price="{{ product.price }}"
-                data-gst="{{ product.gst_percent }}">
-                <img src="{{ url_for('static', filename=product.image_path if product.image_path else 'uploads/products/default.jpg') }}" class="product-img">
-
-                <h3>{{ product.name }}</h3>
-                <p class="price">₹ {{ product.price }}</p>
-                <p>Stock: {{ product.stock }}</p>
-
-            </div>
-            {% endfor %}
-
+    <!-- Page introduction -->
+    <div class="billing-intro">
+        <div>
+            <h2>New Transaction</h2>
+            <p>Select products and add them to your cart to generate an invoice.</p>
         </div>
 
+        <div class="transaction-badge">
+            <span class="transaction-dot"></span>
+            Ready to bill
+        </div>
     </div>
 
+    <!-- Main billing layout -->
+    <div class="billing-layout">
 
-  
-    <div class="billing-cart">
+        <!-- Product catalogue -->
+        <section class="billing-products">
 
-        <div class="section-title">Cart</div>
-        <div id="cart-items"></div>
+            <div class="panel-heading">
+                <div>
+                    <h3>Products</h3>
+                    <p>Choose a product to add it to your cart.</p>
+                </div>
 
-        
+                <span class="product-count">
+                    {{ products|length }} items
+                </span>
+            </div>
+            <!-- Search products -->
+            <div class="billing-product-search">
+                <input
+                    type="search"
+                    id="billing-product-search"
+                    placeholder="Search products by name..."
+                    autocomplete="off"
+                    aria-label="Search products by name"
+                >
+                <span id="billing-product-search-status" role="status"></span>
+            </div>
 
-        <div class="bill-summary">
-            <p>Subtotal: ₹ <span id="subtotal">0</span></p>
-            <p>GST: ₹ <span id="gst">0</span></p>
-            <h3>Total: ₹ <span id="grand-total">0</span></h3>
-        </div>
+                        <!-- Product cards -->
+            <div class="products-grid" id="billing-products-grid">
+                {% for product in products %}
 
-        <button class="checkout-btn" onclick="checkout()">
-            Generate Bill
-        </button>
+                <article
+                    class="product-card {% if product.stock == 0 %}disabled{% endif %}"
+                    {% if product.stock > 0 %}
+                    onclick="addToCart(this)"
+                    role="button"
+                    tabindex="0"
+                    onkeydown="if(event.key === 'Enter' || event.key === ' '){event.preventDefault();addToCart(this)}"
+                    {% endif %}
+                    data-id="{{ product.id }}"
+                    data-name="{{ product.name }}"
+                    data-price="{{ product.price }}"
+                    data-gst="{{ product.gst_percent }}"
+                    data-stock="{{ product.stock }}"
+                >
+
+                    <div class="product-image-wrap">
+
+                        <img
+                            src="{{ url_for('static', filename=product.image_path if product.image_path else 'uploads/products/default.jpg') }}"
+                            alt="{{ product.name }}"
+                            class="product-img"
+                            loading="lazy"
+                            onerror="this.onerror=null;this.src='{{ url_for('static', filename='uploads/products/default.jpg') }}';"
+                        >
+
+                        {% if product.stock == 0 %}
+                        <span class="stock-badge out-of-stock">
+                            Out of stock
+                        </span>
+                        {% else %}
+                        <span class="stock-badge in-stock">
+                            In stock
+                        </span>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="product-details">
+
+                        <h4>{{ product.name }}</h4>
+
+                        <div class="product-price-row">
+                            <span class="product-price">
+                                ₹{{ "%.2f"|format(product.price|float) }}
+                            </span>
+
+                            <span class="product-gst">
+                                GST {{ product.gst_percent }}%
+                            </span>
+                        </div>
+
+                        <div class="product-bottom">
+                            <span class="stock-info">
+                                {{ product.stock }} available
+                            </span>
+
+                            {% if product.stock > 0 %}
+                            <span class="add-product-icon"
+                                  aria-hidden="true">+</span>
+                            {% else %}
+                            <span class="unavailable-label">Unavailable</span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% else %}
+
+                <div class="empty-products">
+                    <div class="empty-icon">▦</div>
+                    <h3>No products available</h3>
+                    <p>Add products to your inventory before creating a bill.</p>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+        <!-- Shopping cart -->
+        <aside class="billing-cart">
+
+            <div class="cart-heading">
+                <div class="cart-title-icon" aria-hidden="true">▤</div>
+
+                <div>
+                    <h3>Current Bill</h3>
+                    <p>Review your selected items.</p>
+                </div>
+            </div>
+
+            <div class="cart-count-row">
+                <span>Selected items</span>
+                <span id="cart-count">0 items</span>
+            </div>
+
+            
+            <label class="customer-field" for="customer-search">
+                Customer (optional)
+
+                <input
+                    type="text"
+                    id="customer-search"
+                    placeholder="Search customer by name or phone..."
+                    autocomplete="off"
+                >
+
+                <select id="customer-id">
+                    <option value="">Walk-in customer</option>
+                    {% for customer in customers %}
+                    <option
+                        value="{{ customer.id }}"
+                        data-name="{{ customer.name|lower }}"
+                        data-phone="{{ (customer.phone or '')|lower }}"
+                        data-points="{{ customer.loyalty_points or 0 }}"
+                        data-lifetime-points="{{ customer.loyalty_lifetime_points or 0 }}"
+                    >
+                        {{ customer.name }}{% if customer.phone %} · {{ customer.phone }}{% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <small id="customer-search-status"></small>
+            </label>
+
+
+
+            <!-- JavaScript inserts cart rows here -->
+            <div id="cart-items" class="cart-items">
+
+                <div class="empty-cart" id="empty-cart">
+                    <div class="empty-cart-icon" aria-hidden="true">＋</div>
+                    <h4>Your cart is empty</h4>
+                    <p>Select a product to begin your transaction.</p>
+                </div>
+
+            </div>
+
+            <!-- Bill totals -->
+            <div class="bill-summary">
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>₹<span id="subtotal">0.00</span></span>
+                </div>
+
+                <div class="summary-row">
+                    <span>GST</span>
+                    <span>₹<span id="gst">0.00</span></span>
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <div class="summary-total">
+                    <span>Total amount</span>
+                    <span>₹<span id="grand-total">0.00</span></span>
+                </div>
+
+                <p class="tax-note">
+                    <span aria-hidden="true">ⓘ</span>
+                    Final amounts are calculated and validated by the server.
+                </p>
+
+            </div>
+
+            <div class="customer-field checkout-adjustments" aria-label="Discount and loyalty options">
+                <p class="automatic-discount-note">
+                    Automatic discount tiers: 5% from ₹1,000, 10% from ₹2,000,
+                    and 15% from ₹5,000. Your eligible discount is applied at checkout.
+                </p>
+                <label for="loyalty-points">Redeem loyalty points</label>
+                <small id="loyalty-balance">Select a registered customer to view points. 100 points = ₹10.</small>
+                <input id="loyalty-points" type="number" min="0" step="1" value="0" placeholder="Points to redeem">
+                <small>Redemption limit: 20% of the subtotal after the automatic discount.</small>
+            </div>
+            <div class="customer-field" id="payment-section">
+                <label>Payment method</label>
+                <div class="payment-choice-grid">
+                    <label class="payment-choice"><input type="radio" name="payment-choice" value="cash" checked><span>💵 Cash</span></label>
+                    <label class="payment-choice"><input type="radio" name="payment-choice" value="upi"><span>📱 UPI</span></label>
+                    <label class="payment-choice"><input type="radio" name="payment-choice" value="card"><span>💳 Card</span></label>
+                    <label class="payment-choice"><input type="radio" name="payment-choice" value="split"><span>⇄ Split payment</span></label>
+                </div>
+                <div id="payment-split-rows" hidden>
+                    <div class="payment-row"><select class="payment-method"><option value="cash">Cash</option><option value="upi">UPI</option><option value="card">Card</option></select><input class="payment-amount" type="number" min="0.01" step="0.01" placeholder="Amount"></div>
+                    <button type="button" class="clear-cart-btn" id="add-payment-split">Add another payment</button>
+                </div>
+                <small id="payment-help">The full final amount will be assigned to Cash.</small>
+            </div>
+
+            <button
+                type="button"
+                class="checkout-btn"
+                id="checkout-btn"
+                onclick="checkout()"
+                disabled
+            >
+                <span>Generate Bill</span>
+                <span aria-hidden="true">→</span>
+            </button>
+
+            <button
+                type="button"
+                class="clear-cart-btn"
+                id="clear-cart-btn"
+                onclick="clearCart()"
+                disabled
+            >
+                Clear cart
+            </button>
+
+        </aside>
 
     </div>
 
 </div>
 
+<!-- Toast notifications -->
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+{% endblock %}
+
+{% block extra_js %}
 <script src="{{ url_for('static', filename='js/billing.js') }}"></script>
-
 {% endblock %}

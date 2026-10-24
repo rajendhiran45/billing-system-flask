@@ -1,0 +1,30 @@
+{% extends "base.html" %}{% block page_heading %}Inventory Alerts{% endblock
+%}{% block extra_css %}<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/management.css') }}"
+/>{% endblock %}{% block content %}
+<div class="management-page">
+  <h2>Products at or below {{ threshold }} units</h2>
+  <p>Suggested replenishment is based on the last 30 days of sales.</p>
+  <table>
+    <tr>
+      <th>Product</th>
+      <th>In stock</th>
+      <th>30-day sales</th>
+      <th>Suggested reorder</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+      <td>{{ item.name }}</td>
+      <td>{{ item.stock }}</td>
+      <td>{{ item.units_30d }}</td>
+      <td>{{ [0, item.units_30d - item.stock]|max }}</td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="4">All active products are above the alert threshold.</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

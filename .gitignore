@@ -1,28 +1,27 @@
-# Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
 *.sqlite3
 
-# Virtual Environment
+# Virtual environments
 venv/
 env/
 .venv/
 
-# Environment Variables
+# Environment variables and secrets
 .env
+.env.*
+!.env.example
 
-# VS Code
+# IDE and test caches
 .vscode/
-
-# Python cache
 .pytest_cache/
 
-# Uploaded files (optional)
+# Uploaded product images
 static/uploads/products/*
 !static/uploads/products/.gitkeep
 
-# Generated PDFs
+# Generated PDF invoices
 static/bills/*
 !static/bills/.gitkeep

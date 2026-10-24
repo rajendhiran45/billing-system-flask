@@ -83,3 +83,35 @@ def delete_product(product_id):
         print("Error in get_all_products:", e)
         return False
 
+
+def get_product_by_id(product_id):
+    cur = None
+    try:
+        cur = mysql.connection.cursor()
+
+        query = """
+            SELECT id, name, price, gst_percent, stock, is_active
+            FROM products
+            WHERE id = %s AND is_active = TRUE
+        """
+        cur.execute(query, (product_id,))
+        row = cur.fetchone()
+
+        if row is None:
+            return None
+
+        columns = [col[0] for col in cur.description]
+        product = dict(zip(columns, row))
+
+        product["price"] = float(product["price"])
+        product["gst_percent"] = float(product["gst_percent"])
+
+        return product
+
+    except Exception as e:
+        print("Error in get_product_by_id:", e)
+        return None
+
+    finally:
+        if cur:
+            cur.close()

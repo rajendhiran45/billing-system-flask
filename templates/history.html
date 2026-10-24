@@ -1,39 +1,188 @@
+
 {% extends "base.html" %}
+
+{% block title %}Billing History | Billing System{% endblock %}
+{% block page_heading %}Billing History{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/billing_history.css') }}">
+{% endblock %}
 
 {% block content %}
 
-<div class="page-header">
-    <h2>Billing History</h2>
-</div>
+<div class="history-page">
 
-<div class="table-responsive">
-    <table class="history-table">
-        <thead>
-            <tr>
-                <th>Bill ID</th>
-                <th>Subtotal</th>
-                <th>GST</th>
-                <th>Total</th>
-                <th>View</th>
-            </tr>
-        </thead>
+    <!-- Page introduction -->
+    <section class="history-intro">
+        <div>
+            <h2>Invoice Records</h2>
+            <p>Review previous bills and open their PDF invoices.</p>
+        </div>
 
-        <tbody>
-            {% for bill in bills %}
-            <tr>
-                <td>{{ bill.id }}</td>
-                <td>₹ {{ bill.subtotal }}</td>
-                <td>₹ {{ bill.gst_amount }}</td>
-                <td>₹ {{ bill.total }}</td>
-                <td>
-                    <a href="{{ url_for('static', filename='bills/bill_' ~ bill.id ~ '.pdf') }}" target="_blank">
-                        View PDF
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <div class="history-status">
+            <span class="history-status-dot"></span>
+            Records overview
+        </div>
+    </section>
+
+    <!-- Summary cards -->
+    <section class="history-summary">
+
+        <article class="history-stat">
+            <div class="history-stat-icon icon-blue" aria-hidden="true">
+                ▤
+            </div>
+            <div>
+                <p>Total Bills</p>
+                <h3>{{ bills|length }}</h3>
+            </div>
+        </article>
+
+        <article class="history-stat">
+            <div class="history-stat-icon icon-green" aria-hidden="true">
+                ₹
+            </div>
+            <div>
+                <p>Total Billed</p>
+                <h3>
+                    ₹{{ "%.2f"|format(
+                        bills|sum(attribute='total')|float
+                    ) }}
+                </h3>
+            </div>
+        </article>
+
+        <article class="history-stat">
+            <div class="history-stat-icon icon-purple" aria-hidden="true">
+                %
+            </div>
+            <div>
+                <p>Total GST</p>
+                <h3>
+                    ₹{{ "%.2f"|format(
+                        bills|sum(attribute='gst_amount')|float
+                    ) }}
+                </h3>
+            </div>
+        </article>
+
+    </section>
+
+    <!-- Invoice table panel -->
+    <section class="history-panel">
+
+        <div class="history-panel-heading">
+            <div>
+                <h3>All Invoices</h3>
+                <p>Your previously generated bills</p>
+            </div>
+
+            <span class="invoice-count">
+                {{ bills|length }} records
+            </span>
+        </div>
+
+        {% if bills %}
+
+        <div class="history-table-wrapper">
+
+            <table class="history-table">
+
+                <thead>
+                    <tr>
+                        <th>Bill ID</th>
+                        <th>Subtotal</th>
+                        <th>GST Amount</th>
+                        <th>Total Amount</th>
+                        <th class="action-column">Invoice</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for bill in bills %}
+
+                    <tr>
+                        <td>
+                            <span class="bill-id">
+                                #{{ bill.id }}
+                            </span>
+                        </td>
+
+                        <td class="money-cell">
+                            ₹{{ "%.2f"|format(bill.subtotal|float) }}
+                        </td>
+
+                        <td>
+                            <span class="gst-value">
+                                ₹{{ "%.2f"|format(bill.gst_amount|float) }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <strong class="total-value">
+                                ₹{{ "%.2f"|format(bill.total|float) }}
+                            </strong>
+                        </td>
+
+                        <td class="action-column">
+                            <a
+                                class="view-invoice-btn"
+                                href="{{ url_for(
+                                    'static',
+                                    filename='bills/bill_' ~ bill.id ~ '.pdf'
+                                ) }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <span aria-hidden="true">↗</span>
+                                View PDF
+                            </a>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="history-table-footer">
+            <span>Showing {{ bills|length }} invoice records</span>
+            <span>Amounts displayed in INR (₹)</span>
+        </div>
+
+        {% else %}
+
+        <!-- Empty state -->
+        <div class="history-empty">
+
+            <div class="history-empty-icon" aria-hidden="true">
+                ▤
+            </div>
+
+            <h3>No invoices yet</h3>
+
+            <p>
+                Your generated bills will appear here after your first
+                successful transaction.
+            </p>
+
+            <a
+                href="{{ url_for('billing.billing_page') }}"
+                class="create-first-bill-btn"
+            >
+                Go to Billing
+                <span aria-hidden="true">→</span>
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
 </div>
 
 {% endblock %}

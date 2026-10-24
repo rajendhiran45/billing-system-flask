@@ -1,0 +1,68 @@
+{% extends "base.html" %}{% block title %}Analytics | Billing System{% endblock
+%}{% block page_heading %}Sales Analytics{% endblock %}{% block extra_css
+%}<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/management.css') }}"
+/>{% endblock %}{% block content %}
+<div class="management-page">
+  <h2>Last 30 days</h2>
+  <div class="metric-grid">
+    <article>
+      <small>Revenue</small
+      ><strong>₹{{ '%.2f'|format(data.summary.revenue|float) }}</strong>
+    </article>
+    <article>
+      <small>Invoices</small><strong>{{ data.summary.bill_count }}</strong>
+    </article>
+    <article>
+      <small>GST collected</small
+      ><strong>₹{{ '%.2f'|format(data.summary.gst|float) }}</strong>
+    </article>
+    <article>
+      <small>Low-stock products</small><strong>{{ low_stock|length }}</strong>
+    </article>
+  </div>
+  <section>
+    <h3>Daily sales</h3>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Invoices</th>
+        <th>Revenue</th>
+      </tr>
+      {% for row in data.daily %}
+      <tr>
+        <td>{{ row.day }}</td>
+        <td>{{ row.bills }}</td>
+        <td>₹{{ '%.2f'|format(row.revenue|float) }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="3">No sales in this period.</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+  <section>
+    <h3>Best-selling products</h3>
+    <table>
+      <tr>
+        <th>Product</th>
+        <th>Units</th>
+        <th>Revenue</th>
+      </tr>
+      {% for row in data.top_products %}
+      <tr>
+        <td>{{ row.product_name }}</td>
+        <td>{{ row.units }}</td>
+        <td>₹{{ '%.2f'|format(row.revenue|float) }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="3">No sales yet.</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+</div>
+{% endblock %}
