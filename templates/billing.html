@@ -21,10 +21,7 @@
             <p>Select products and add them to your cart to generate an invoice.</p>
         </div>
 
-        <div class="transaction-badge">
-            <span class="transaction-dot"></span>
-            Ready to bill
-        </div>
+        
     </div>
 
     <!-- Main billing layout -->
@@ -77,7 +74,7 @@
                     <div class="product-image-wrap">
 
                         <img
-                            src="{% if product.image_path and product.image_path.startswith('http') %}{{ product.image_path }}{% else %}{{ url_for('static', filename=product.image_path if product.image_path else 'uploads/products/default.jpg') }}{% endif %}"
+                            src="{{ url_for('static', filename=product.image_path if product.image_path else 'uploads/products/default.jpg') }}"
                             alt="{{ product.name }}"
                             class="product-img"
                             loading="lazy"
@@ -187,7 +184,17 @@
                 <small id="customer-search-status"></small>
             </label>
 
-
+            <details class="quick-customer" id="quick-customer-panel">
+                <summary>Add a new customer</summary>
+                <p>Register a customer now and select them for this bill.</p>
+                <div class="quick-customer-fields">
+                    <input id="quick-customer-name" type="text" maxlength="120" placeholder="Customer name *" autocomplete="name">
+                    <input id="quick-customer-phone" type="tel" maxlength="30" placeholder="Phone number" autocomplete="tel">
+                    <input id="quick-customer-email" type="email" maxlength="120" placeholder="Email address" autocomplete="email">
+                    <input id="quick-customer-address" type="text" maxlength="255" placeholder="Address" autocomplete="street-address">
+                </div>
+                <button type="button" class="quick-customer-save" id="quick-customer-save">Save and select customer</button>
+            </details>
 
             <!-- JavaScript inserts cart rows here -->
             <div id="cart-items" class="cart-items">
