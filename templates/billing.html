@@ -77,7 +77,7 @@
                     <div class="product-image-wrap">
 
                         <img
-                            src="{{ url_for('static', filename=product.image_path if product.image_path else 'uploads/products/default.jpg') }}"
+                            src="{% if product.image_path and product.image_path.startswith('http') %}{{ product.image_path }}{% else %}{{ url_for('static', filename=product.image_path if product.image_path else 'uploads/products/default.jpg') }}{% endif %}"
                             alt="{{ product.name }}"
                             class="product-img"
                             loading="lazy"
